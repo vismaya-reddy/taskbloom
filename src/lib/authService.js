@@ -4,10 +4,10 @@ export async function signUpWithEmail(email, password) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: {
-      emailRedirectTo: 'https://taskbloom-bnjy.vercel.app/dashboard',
-    },
   })
+
+  console.log("DATA:", data)
+  console.log("ERROR:", error)
 
   if (error) throw error
   return data
@@ -42,6 +42,7 @@ export async function signOut() {
 
 export async function getCurrentSession() {
   const { data, error } = await supabase.auth.getSession()
+
   if (error) throw error
   return data.session
 }

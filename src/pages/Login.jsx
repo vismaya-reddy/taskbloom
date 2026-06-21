@@ -112,6 +112,7 @@ export default function Login() {
       </div>
 
       <GoogleButton onClick={handleGoogleLogin} loading={googleLoading} />
+      
     </AuthCard>
   )
 }

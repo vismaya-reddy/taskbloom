@@ -23,16 +23,19 @@ export default function Signup() {
       setError('Please fill in all fields.')
       return
     }
+
     if (password.length < 6) {
       setError('Password must be at least 6 characters.')
       return
     }
+
     if (password !== confirmPassword) {
       setError('Passwords do not match.')
       return
     }
 
     setLoading(true)
+
     try {
       const data = await signUpWithEmail(email, password)
 
@@ -42,7 +45,11 @@ export default function Signup() {
         navigate('/dashboard')
       }
     } catch (err) {
-      setError(err.message || 'Could not create your account. Please try again.')
+    console.error("SIGNUP ERROR:", err)
+    console.error("MESSAGE:", err?.message)
+    console.error("STATUS:", err?.status)
+
+    setError(err?.message || "Signup failed")
     } finally {
       setLoading(false)
     }
@@ -51,6 +58,7 @@ export default function Signup() {
   async function handleGoogleSignup() {
     setError('')
     setGoogleLoading(true)
+
     try {
       await signInWithGoogle()
     } catch (err) {
@@ -66,10 +74,22 @@ export default function Signup() {
           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100">
             <CheckCircle2 className="h-6 w-6 text-emerald-600" />
           </div>
+
           <p className="text-sm text-ink-600">
             We sent a confirmation link to{' '}
             <span className="font-medium text-ink-900">{email}</span>.
-            Click the link to activate your account, then log in.
+          </p>
+
+          <p className="mt-3 text-sm text-ink-600">
+            Open your email and click the confirmation link.
+          </p>
+
+          <p className="mt-2 text-sm font-medium text-amber-600">
+            Important: open the email on the SAME device/browser used for signup.
+          </p>
+
+          <p className="mt-2 text-sm text-ink-500">
+            After confirming, return to TaskBloom and log in.
           </p>
         </div>
       </AuthCard>
@@ -92,6 +112,7 @@ export default function Signup() {
           >
             Email
           </label>
+
           <input
             id="email"
             type="email"
@@ -99,7 +120,7 @@ export default function Signup() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
             autoComplete="email"
-            className="w-full rounded-xl border border-ink-200 px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 transition focus:border-lavender-400 focus:outline-none focus:ring-4 focus:ring-lavender-100"
+            className="w-full rounded-xl border border-ink-200 px-4 py-2.5 text-sm text-ink-900"
           />
         </div>
 
@@ -110,6 +131,7 @@ export default function Signup() {
           >
             Password
           </label>
+
           <input
             id="password"
             type="password"
@@ -117,7 +139,7 @@ export default function Signup() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="At least 6 characters"
             autoComplete="new-password"
-            className="w-full rounded-xl border border-ink-200 px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 transition focus:border-lavender-400 focus:outline-none focus:ring-4 focus:ring-lavender-100"
+            className="w-full rounded-xl border border-ink-200 px-4 py-2.5 text-sm text-ink-900"
           />
         </div>
 
@@ -128,14 +150,15 @@ export default function Signup() {
           >
             Confirm password
           </label>
+
           <input
             id="confirmPassword"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Re-enter your password"
+            placeholder="Re-enter password"
             autoComplete="new-password"
-            className="w-full rounded-xl border border-ink-200 px-4 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 transition focus:border-lavender-400 focus:outline-none focus:ring-4 focus:ring-lavender-100"
+            className="w-full rounded-xl border border-ink-200 px-4 py-2.5 text-sm text-ink-900"
           />
         </div>
 
@@ -148,7 +171,7 @@ export default function Signup() {
         <button
           type="submit"
           disabled={loading}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-lavender-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm shadow-lavender-300/50 transition hover:bg-lavender-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-lavender-600 px-4 py-2.5 text-sm font-medium text-white"
         >
           {loading && <Loader2 className="h-4 w-4 animate-spin" />}
           {loading ? 'Creating account…' : 'Create account'}
