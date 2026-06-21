@@ -5,7 +5,7 @@ export async function signUpWithEmail(email, password) {
     email,
     password,
     options: {
-      emailRedirectTo: 'http://localhost:5173/dashboard',
+      emailRedirectTo: 'https://taskbloom-bnjy.vercel.app/dashboard',
     },
   })
 
@@ -27,7 +27,7 @@ export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: 'http://localhost:5173/dashboard',
+      redirectTo: 'https://taskbloom-bnjy.vercel.app/dashboard',
     },
   })
 
